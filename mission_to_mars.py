@@ -27,7 +27,6 @@ html_mars_weather = driver.page_source
 driver.get(URL_mars_hemispheres)
 html_mars_hemispheres = driver.page_source
 
-driver.close()
 
 # Grab Mars News
 soup = BeautifulSoup(html_mars_news, "html.parser")
@@ -53,7 +52,25 @@ print(mars_weather.text)
 # Scrape Mars Facts Table
 dfs = pd.read_html(URL_mars_facts)
 mars_facts = dfs[0]
+print(mars_facts)
 
 # Grab Mars Hemispheres Images
 soup = BeautifulSoup(html_mars_hemispheres, "html.parser")
-# mars_hemispheres = soup.find()
+mars_hemispheres = soup.find_all("div", class_="item")
+mars_hemisphere_URLs = []
+for item in mars_hemispheres:
+    mars_hemisphere_link = urllib.parse.urljoin("https://astrogeology.usgs.gov", item.a["href"])
+    driver.get(mars_hemisphere_link)
+    html_mars_hemisphere = driver.page_source
+    soup = BeautifulSoup(html_mars_hemisphere, "html.parser")
+    mars_hemisphere_download_link = soup.find("div", class_="downloads")
+    mars_hemisphere_URLs.append(
+        {
+            "title": item.div.a.text,
+            "img_url": mars_hemisphere_download_link.ul.li.next_sibling.next_sibling.a["href"]
+        }
+    )
+
+driver.close()
+
+print(mars_hemisphere_URLs)
