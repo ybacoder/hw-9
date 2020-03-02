@@ -14,17 +14,20 @@ def scrape():
     # navigate through the URLs and save the htmls
     driver = webdriver.Firefox()
     driver.get(URL_mars_news)
+    time.sleep(1)
     html_mars_news = driver.page_source
 
     driver.get(URL_mars_image)
+    time.sleep(1)
     html_mars_image = driver.page_source
 
     # driver = webdriver.Firefox()
     driver.get(URL_mars_weather)
-    time.sleep(3)
+    time.sleep(1)
     html_mars_weather = driver.page_source
 
     driver.get(URL_mars_hemispheres)
+    time.sleep(1)
     html_mars_hemispheres = driver.page_source
 
 
@@ -66,7 +69,7 @@ def scrape():
         mars_hemisphere_URLs.append(
             {
                 "title": item.div.a.text,
-                "img_url": mars_hemisphere_download_link.ul.li.next_sibling.next_sibling.a["href"]
+                "img_url": mars_hemisphere_download_link.ul.li.a["href"]
             }
         )
 
