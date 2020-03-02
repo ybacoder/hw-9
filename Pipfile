@@ -13,6 +13,8 @@ selenium = "*"
 pylint = "*"
 pprint = "*"
 lxml = "*"
+pymongo = "*"
+flask = "*"
 
 [requires]
 python_version = "3.7"
